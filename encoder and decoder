@@ -1,0 +1,81 @@
+//3*8 encoder
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity encoder is
+Port(i:in STD_LOGIC_VECTOR(7 downto 0); 
+y:out STD_LOGIC_VECTOR(2 downto 0));
+end encoder;
+architecture Behavioral of encoder is 
+begin
+y<="000" when i="00000001" else
+"001" when i="00000010" else
+"010" when i="00000100" else
+"011" when i="00001000" else
+"100" when i="00010000" else
+"101" when i="00100000" else
+"110" when i="01000000" else
+"111" when i="10000000" else
+"XXX";
+end Behavioral;
+
+//2*4 encoder
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity encod1 is
+Port (a: in STD_LOGIC_VECTOR (3 downto 0);
+q:out STD_LOGIC_VECTOR (1 downto 0));
+end encod1;
+architecture Behavioral of encod1 is
+begin
+q<="00" when a="0001" else
+"01" when a="0010" else
+"10" when a="0100" else
+"11"; when a="1000" else
+"XX";
+end Behavioral;
+
+//3*8decoder
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL; 
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity dec1 is
+Port(s:in STD_LOGIC_VECTOR(2 downto 0); 
+y:out STD_LOGIC_VECTOR(7 downto 0));
+end dec1;
+architecture Behavioral of dec1 is begin
+with s select y<="00000001" when "000",
+"00000010"when"001",
+"00000100"when"010",
+"00001000"when"011",
+"00010000"when"100",
+"00100000"when"101",
+"01000000"when"110",
+"10000000"when"111",
+"00000000" when others; 
+end Behavioral;
+
+//2-4decoder
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+entity decoder is
+Port ( en : in STD_LOGIC;
+s : in STD_LOGIC_VECTOR (1 downto 0);
+z : out STD_LOGIC_VECTOR (3 downto 0));
+end decoder;
+architecture arch of decoder is
+signal p,q : STD_Logic;
+begin
+p <= not s(1);
+q <= not s(0);
+z(0) <= p and q;
+z(1) <= p and s(0);
+z(2) <= q and s(1);
+z(3) <= s(0) and s(1);
+end arch;
